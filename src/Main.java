@@ -2,45 +2,43 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         /*
          * 1) Вывести список
          * Создайте список из 5 целых чисел
          */
-        ArrayList<Integer> alInt = new ArrayList<>() {{
-            add(1);
-            add(3);
-            add(5);
-            add(7);
-            add(11);
-        }};
+        List<Integer> integerList = new ArrayList<>(List.of(1, 3, 5, 7, 11));
         // Выведите его элементы через пробел
         System.out.print("Элементы списка целых чисел: ");
-        listOutputOneLine(alInt);
+        listOutputOneLine(integerList);
         System.out.println();
 
         /*
          * 2) Доступ по индексу
          * Выведите третий элемент списка
          */
-        System.out.println("Третий элемент списка: " + alInt.get(2).toString());
+        System.out.println("Третий элемент списка: " + integerList.get(2));
 
         /*
          * 3) Удаление элемента
          * Удалите второй элемент списка и выведите оставшиеся
          */
-        alInt.remove(1);
+        integerList.remove(1);
+        System.out.print("Элементы списка целых чисел после удаления второго элемента: ");
+        listOutputOneLine(integerList);
+        System.out.println();
 
         /*
          * 4) Сумма элементов
          * Найдите сумму всех чисел в списке
          */
         {
-            int sum = 0;
-            for (Integer element : alInt) {
+            long sum = 0;
+            for (Integer element : integerList) {
                 sum += element;
             }
             System.out.printf("Сумма всех чисел в списке: %s\n", sum);
@@ -52,7 +50,7 @@ public class Main {
          */
         {
             int count = 0;
-            for (Integer element : alInt) {
+            for (Integer element : integerList) {
                 if (element == 7) {
                     count++;
                 }
@@ -65,8 +63,8 @@ public class Main {
          * Проверьте, содержится ли число 42 в списке
          */
         {
-            final int intToFind = 42;
-            System.out.printf("Число %s в списке%s содержится\n", intToFind, (alInt.contains(intToFind) ? "" : " не"));
+            int intToFind = 42;
+            System.out.printf("Число %s в списке%s содержится\n", intToFind, (integerList.contains(intToFind) ? "" : " не"));
         }
 
         /*
@@ -76,13 +74,9 @@ public class Main {
         {
             int min = Integer.MAX_VALUE;
             int max = Integer.MIN_VALUE;
-            for (Integer element : alInt) {
-                if (element < min) {
-                    min = element;
-                }
-                if (element > max) {
-                    max = element;
-                }
+            for (Integer element : integerList) {
+                min = Math.min(min, element);
+                max = Math.max(max, element);
             }
             System.out.printf("В списке минимальное число равно %s, максимальное число равно %s\n", min, max);
         }
@@ -91,14 +85,14 @@ public class Main {
          * 8) Удалить все чётные числа
          * Удалите из списка все числа, делящиеся на 2.
          */
-        alInt.removeIf(element -> (element % 2) == 0);
+        integerList.removeIf(element -> (element % 2) == 0);
 
         /*
          * 9) Создание списка из массива
          * Создайте список из массива int[] arr = {1, 2, 3, 4}.
          */
         int[] arrInt = new int[]{1, 2, 3, 4};
-        List<Integer> alInt2 = Arrays.asList(Arrays.stream(arrInt).boxed().toArray(Integer[]::new));
+        List<Integer> integerList2 = Arrays.asList(Arrays.stream(arrInt).boxed().toArray(Integer[]::new));
 
         /*
          * 10) Количество элементов > N
@@ -107,7 +101,7 @@ public class Main {
         {
             int N = 2;
             int countGreaterN = 0;
-            for (Integer element : alInt2) {
+            for (Integer element : integerList2) {
                 if (element > N) {
                     countGreaterN++;
                 }
@@ -119,7 +113,7 @@ public class Main {
          * 11) Создание списка строк и фильтрация
          * Создайте список строк. Выведите строки, длина которых больше 5
          */
-        List<String> alString = new ArrayList<>() {{
+        List<String> stringList = new ArrayList<>() {{
             add("Раз");
             add("Два");
             add("Три");
@@ -132,7 +126,7 @@ public class Main {
         // Выведите строки, длина которых больше 5
         {
             System.out.println("Строки, длина которых больше 5:");
-            for (String element : alString) {
+            for (String element : stringList) {
                 if (element.length() > 5) {
                     System.out.println(element);
                 }
@@ -144,22 +138,16 @@ public class Main {
          * Напишите метод, который возвращает список в обратном порядке
          */
         System.out.println();
-        listOutput(invertList(alString), "invertList(alString)");
+        listOutput(invertList(stringList), "invertList(alString)");
 
         System.out.println();
-        listOutput(alString, "alString");
+        listOutput(stringList, "alString");
 
         /*
          * 13) Объединение двух списков без дубликатов
          * Даны два списка. Объедините их в один, не добавляя повторы
          */
-        List<Integer> lInteger1 = new ArrayList<>() {{
-            add(1);
-            add(2);
-            add(3);
-            add(4);
-            add(5);
-        }};
+        List<Integer> integerList1 = new ArrayList<>(List.of(1, 2, 3, 4, 5));
         List<Integer> lInteger2 = new ArrayList<>() {{
             add(3);
             add(4);
@@ -167,42 +155,41 @@ public class Main {
             add(6);
             add(7);
         }};
-        List<Integer> lInteger = new ArrayList<>(lInteger1);
+        List<Integer> mergedList = new ArrayList<>(integerList1);
         for (Integer element : lInteger2) {
-            if (!lInteger.contains(element)) {
-                lInteger.add(element);
+            if (!mergedList.contains(element)) {
+                mergedList.add(element);
             }
         }
 
         System.out.println();
-        listOutput(lInteger1, "Первый список");
+        listOutput(integerList1, "Первый список");
 
         System.out.println();
         listOutput(lInteger2, "Второй список");
 
         System.out.println();
-        listOutput(lInteger, "Объединенный список");
+        listOutput(mergedList, "Объединенный список");
 
         /*
          * 14) Сумма только нечётных чисел
          * Считайте List<Integer> и посчитайте сумму только нечётных чисел
          */
-        {
-            System.out.println();
-            int sum = 0;
-            for (Integer element : lInteger) {
-                if ((element % 2) == 1) {
-                    sum += element;
-                }
+        System.out.println();
+        long sum = 0;
+        for (Integer element : mergedList) {
+            if ((element % 2) == 1) {
+                sum += element;
             }
-            System.out.printf("Сумма всех нечетных чисел в объединенном списке: %s\n", sum);
         }
+            System.out.printf("Сумма всех нечетных чисел в объединенном списке: %s\n", sum);
 
         /*
          * 15) Фильтр по первой букве
          * Дан список строк
          */
-        List<String> lString = new ArrayList<>() {{
+        List<String> stringList2 = new ArrayList<>(List.of("Апельсин", "Банан", "Арбуз", "Вишня", "Гранат", "Ананас", "Дыня", "Черника"));
+        /*List<String> lString = new ArrayList<>() {{
             add("Апельсин");
             add("Банан");
             add("Арбуз");
@@ -211,15 +198,15 @@ public class Main {
             add("Ананас");
             add("Дыня");
             add("Черника");
-        }};
+        }};*/
 
         System.out.println();
-        listOutput(lString, "Дан список строк");
+        listOutput(stringList, "Дан список строк");
 
         // Верните новый список, содержащий только строки, начинающиеся с буквы "А"
 
         System.out.println();
-        listOutput(filterFirstChar(lString, 'А'), "Список, содержащий только строки, начинающиеся с буквы \"А\"");
+        listOutput(filterFirstChar(stringList2, 'А'), "Список, содержащий только строки, начинающиеся с буквы \"А\"");
     }
 
     public static void listOutputOneLine(List<?> list) {
