@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,7 +12,7 @@ public class Main {
         List<Integer> integerList = new ArrayList<>(List.of(1, 3, 5, 7, 11));
         // Выведите его элементы через пробел
         System.out.print("Элементы списка целых чисел: ");
-        listOutputOneLine(integerList);
+        printListInOneLine(integerList);
         System.out.println();
 
         /*
@@ -29,7 +27,7 @@ public class Main {
          */
         integerList.remove(1);
         System.out.print("Элементы списка целых чисел после удаления второго элемента: ");
-        listOutputOneLine(integerList);
+        printListInOneLine(integerList);
         System.out.println();
 
         /*
@@ -147,26 +145,20 @@ public class Main {
          * 13) Объединение двух списков без дубликатов
          * Даны два списка. Объедините их в один, не добавляя повторы
          */
-        List<Integer> integerList1 = new ArrayList<>(List.of(1, 2, 3, 4, 5));
-        List<Integer> lInteger2 = new ArrayList<>() {{
-            add(3);
-            add(4);
-            add(5);
-            add(6);
-            add(7);
-        }};
-        List<Integer> mergedList = new ArrayList<>(integerList1);
-        for (Integer element : lInteger2) {
+        List<Integer> intList1 = new ArrayList<>(List.of(1, 2, 3, 4, 5));
+        List<Integer> intList2 = new ArrayList<>(List.of(3, 4, 5, 6, 7));
+        List<Integer> mergedList = new ArrayList<>(intList1);
+        for (Integer element : intList2) {
             if (!mergedList.contains(element)) {
                 mergedList.add(element);
             }
         }
 
         System.out.println();
-        listOutput(integerList1, "Первый список");
+        listOutput(intList1, "Первый список");
 
         System.out.println();
-        listOutput(lInteger2, "Второй список");
+        listOutput(intList2, "Второй список");
 
         System.out.println();
         listOutput(mergedList, "Объединенный список");
@@ -182,23 +174,13 @@ public class Main {
                 sum += element;
             }
         }
-            System.out.printf("Сумма всех нечетных чисел в объединенном списке: %s\n", sum);
+        System.out.printf("Сумма всех нечетных чисел в объединенном списке: %s\n", sum);
 
         /*
          * 15) Фильтр по первой букве
          * Дан список строк
          */
         List<String> stringList2 = new ArrayList<>(List.of("Апельсин", "Банан", "Арбуз", "Вишня", "Гранат", "Ананас", "Дыня", "Черника"));
-        /*List<String> lString = new ArrayList<>() {{
-            add("Апельсин");
-            add("Банан");
-            add("Арбуз");
-            add("Вишня");
-            add("Гранат");
-            add("Ананас");
-            add("Дыня");
-            add("Черника");
-        }};*/
 
         System.out.println();
         listOutput(stringList, "Дан список строк");
@@ -209,7 +191,7 @@ public class Main {
         listOutput(filterFirstChar(stringList2, 'А'), "Список, содержащий только строки, начинающиеся с буквы \"А\"");
     }
 
-    public static void listOutputOneLine(List<?> list) {
+    public static void printListInOneLine(List<?> list) {
         for (Object element : list) {
             System.out.print(element.toString() + " ");
         }

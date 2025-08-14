@@ -24,7 +24,7 @@ class MainTest {
             add(8);
             add(12);
         }};
-        Main.listOutputOneLine(alInt);
+        Main.printListInOneLine(alInt);
 
         Assertions.assertEquals("2 4 6 8 12", outputStreamCaptor.toString().trim());
     }
@@ -39,7 +39,7 @@ class MainTest {
             add(9);
             add(13);
         }};
-        Main.listOutputOneLine(Main.invertList(list));
+        Main.printListInOneLine(Main.invertList(list));
         Assertions.assertEquals("13 9 7 5 3", outputStreamCaptor.toString().trim());
     }
 
